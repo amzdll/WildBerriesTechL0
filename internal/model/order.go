@@ -13,7 +13,7 @@ type Order struct {
 	InternalSignature string
 	CustomerID        string
 	DeliveryService   string
-	Shardkey          string
+	ShardKey          string
 	SmID              int
 	DateCreated       time.Time
 	OofShard          string
