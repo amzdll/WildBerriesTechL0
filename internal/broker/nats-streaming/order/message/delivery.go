@@ -2,7 +2,7 @@ package message
 
 import "wb/internal/model"
 
-type delivery struct {
+type Delivery struct {
 	OrderUID string `json:"order_uid"`
 	Name     string `json:"name"`
 	Phone    string `json:"phone"`
@@ -13,7 +13,7 @@ type delivery struct {
 	Email    string `json:"email"`
 }
 
-func (d *delivery) toModel() model.Delivery {
+func (d *Delivery) toModel() model.Delivery {
 	return model.Delivery{
 		OrderUID: d.OrderUID,
 		Name:     d.Name,

@@ -2,7 +2,7 @@ package message
 
 import "wb/internal/model"
 
-type payment struct {
+type Payment struct {
 	Transaction  string  `json:"transaction"`
 	RequestId    string  `json:"request_id"`
 	Currency     string  `json:"currency"`
@@ -15,7 +15,7 @@ type payment struct {
 	CustomFee    float64 `json:"custom_fee"`
 }
 
-func (p *payment) toModel() model.Payment {
+func (p *Payment) toModel() model.Payment {
 	return model.Payment{
 		Transaction:  p.Transaction,
 		RequestId:    p.RequestId,

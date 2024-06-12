@@ -2,7 +2,7 @@ package message
 
 import "wb/internal/model"
 
-type item struct {
+type Item struct {
 	ChrtID      int     `json:"chrt_id"`
 	TrackNumber string  `json:"track_number"`
 	Price       float64 `json:"price"`
@@ -16,7 +16,7 @@ type item struct {
 	Status      int     `json:"status"`
 }
 
-func (i *item) toModel() model.Item {
+func (i *Item) toModel() model.Item {
 	return model.Item{
 		ChrtID:      i.ChrtID,
 		TrackNumber: i.TrackNumber,

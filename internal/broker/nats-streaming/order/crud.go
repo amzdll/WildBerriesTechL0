@@ -22,4 +22,5 @@ func (h MessageHandler) Create(m *stan.Msg) {
 	if err := m.Ack(); err != nil {
 		h.logger.Error("Data processing confirmation error", err)
 	}
+	h.logger.Info("Order created")
 }
