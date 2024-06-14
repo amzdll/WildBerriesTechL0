@@ -4,6 +4,8 @@ go 1.22.3
 
 require (
 	github.com/georgysavva/scany/v2 v2.1.3
+	github.com/go-chi/chi/v5 v5.0.12
+	github.com/go-chi/render v1.0.3
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/nats-io/nats.go v1.35.0
 	github.com/nats-io/stan.go v0.10.4
@@ -13,6 +15,7 @@ require (
 )
 
 require (
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
