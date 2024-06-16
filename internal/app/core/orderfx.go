@@ -4,7 +4,8 @@ import (
 	"go.uber.org/fx"
 	api "wb/internal/api/order"
 	broker "wb/internal/broker/nats-streaming/order"
-	repository "wb/internal/repository/order"
+	pgRepository "wb/internal/db/pg/order"
+	redisRepository "wb/internal/db/redis/order"
 	service "wb/internal/service/order"
 )
 
@@ -13,8 +14,12 @@ func orderModule() fx.Option {
 		"Order core module",
 		fx.Provide(
 			fx.Annotate(
-				repository.New,
-				fx.As(new(service.Repository)),
+				redisRepository.New,
+				fx.As(new(service.RedisRepository)),
+			),
+			fx.Annotate(
+				pgRepository.New,
+				fx.As(new(service.PgRepository)),
 			),
 			fx.Annotate(
 				service.New,

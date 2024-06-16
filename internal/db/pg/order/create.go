@@ -2,6 +2,9 @@ package order
 
 import (
 	"context"
+	"database/sql"
+	"errors"
+	"wb/internal/db/pg/order/query"
 	"wb/internal/model"
 )
 
@@ -36,7 +39,7 @@ func (r *Repository) Create(ctx context.Context, order model.Order) error {
 
 func (r *Repository) createOrder(ctx context.Context, order model.Order) error {
 	_, err := r.db.Exec(
-		ctx, createOrderQuery,
+		ctx, query.CreateOrder,
 		order.OrderUID,
 		order.TrackNumber,
 		order.Entry,
@@ -49,12 +52,15 @@ func (r *Repository) createOrder(ctx context.Context, order model.Order) error {
 		order.DateCreated,
 		order.OofShard,
 	)
+	if errors.Is(err, sql.ErrNoRows) {
+
+	}
 	return err
 }
 
 func (r *Repository) createDelivery(ctx context.Context, delivery model.Delivery) error {
 	_, err := r.db.Exec(
-		ctx, createDeliveryQuery,
+		ctx, query.CreateDelivery,
 		delivery.OrderUID,
 		delivery.Name,
 		delivery.Phone,
@@ -71,7 +77,7 @@ func (r *Repository) createItems(ctx context.Context, order model.Order) error {
 	var err error
 	for _, item := range order.Items {
 		_, err = r.db.Exec(
-			ctx, createItemQuery,
+			ctx, query.CreateItem,
 			item.ChrtID,
 			item.TrackNumber,
 			item.Price,
@@ -92,7 +98,7 @@ func (r *Repository) createItems(ctx context.Context, order model.Order) error {
 
 func (r *Repository) createPayment(ctx context.Context, payment model.Payment) error {
 	_, err := r.db.Exec(
-		ctx, createPaymentQuery,
+		ctx, query.CreatePayment,
 		payment.Transaction,
 		payment.RequestId,
 		payment.Currency,

@@ -3,17 +3,17 @@ package entity
 import "wb/internal/model"
 
 type Item struct {
-	ChrtID      int
-	TrackNumber string
-	Price       float64
-	RID         string
-	Name        string
-	Sale        int
-	Size        string
-	TotalPrice  float64
-	NmID        int
-	Brand       string
-	Status      int
+	ChrtID      int     `db:"chrt_id"`
+	TrackNumber string  `db:"track_number"`
+	Price       float64 `db:"price"`
+	RID         string  `db:"rid"`
+	Name        string  `db:"name"`
+	Sale        int     `db:"sale"`
+	Size        string  `db:"size"`
+	TotalPrice  float64 `db:"total_price"`
+	NmID        int     `db:"nm_id"`
+	Brand       string  `db:"brand"`
+	Status      int     `db:"status"`
 }
 
 func (i *Item) toModel() model.Item {

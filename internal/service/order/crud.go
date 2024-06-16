@@ -6,9 +6,15 @@ import (
 )
 
 func (s Service) Create(ctx context.Context, order model.Order) error {
-	return s.repository.Create(ctx, order)
+	if err := s.db.Create(ctx, order); err != nil {
+		return err
+	}
+	if err := s.cache.Create(ctx, order); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s Service) Get(ctx context.Context, id string) (model.Order, error) {
-	return s.repository.Get(ctx, id)
+	return s.cache.Get(ctx, id)
 }

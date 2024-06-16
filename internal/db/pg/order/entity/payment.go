@@ -3,16 +3,16 @@ package entity
 import "wb/internal/model"
 
 type Payment struct {
-	Transaction  string
-	RequestId    string
-	Currency     string
-	Provider     string
-	Amount       int
-	PaymentDt    int64
-	Bank         string
-	DeliveryCost float64
-	GoodsTotal   int
-	CustomFee    float64
+	Transaction  string  `db:"transaction"`
+	RequestId    string  `db:"request_id"`
+	Currency     string  `db:"currency"`
+	Provider     string  `db:"provider"`
+	Amount       int     `db:"amount"`
+	PaymentDt    int64   `db:"payment_dt"`
+	Bank         string  `db:"bank"`
+	DeliveryCost float64 `db:"delivery_cost"`
+	GoodsTotal   int     `db:"goods_total"`
+	CustomFee    float64 `db:"custom_fee"`
 }
 
 func (e *Payment) toModel() model.Payment {

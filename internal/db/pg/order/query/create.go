@@ -1,8 +1,7 @@
-package order
+package query
 
-// Create queries
 const (
-	createOrderQuery = ` 
+	CreateOrder = ` 
 		insert into "order" 
 		(
 			order_uid,
@@ -19,7 +18,7 @@ const (
 		) 
 		values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
 
-	createDeliveryQuery = `
+	CreateDelivery = `
 		insert into "delivery" 
     (
 			order_uid,
@@ -33,7 +32,7 @@ const (
 		)
 		values($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	createPaymentQuery = `
+	CreatePayment = `
 	insert into "payment"
 	(
 	 	transaction,
@@ -49,7 +48,7 @@ const (
 	)
 	values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
 
-	createItemQuery = `
+	CreateItem = `
 	insert into "items"
 	(	
 		chrt_id,
@@ -65,12 +64,4 @@ const (
 		status
 	)
 	values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
-)
-
-// Get queries
-const (
-	getOrderQuery    = `select * from "order" where order_uid = $1`
-	getDeliveryQuery = `select * from "delivery" where order_uid = $1`
-	getPaymentQuery  = `select * from "payment" where transaction = $1`
-	getItemQuery     = `select * from "items" where track_number = $1`
 )

@@ -3,14 +3,14 @@ package entity
 import "wb/internal/model"
 
 type Delivery struct {
-	OrderUID string
-	Name     string
-	Phone    string
-	Zip      int
-	City     string
-	Address  string
-	Region   string
-	Email    string
+	OrderUID string `db:"order_uid"`
+	Name     string `db:"name"`
+	Phone    string `db:"phone"`
+	Zip      int    `db:"zip"`
+	City     string `db:"city"`
+	Address  string `db:"address"`
+	Region   string `db:"region"`
+	Email    string `db:"email"`
 }
 
 func (e *Delivery) toModel() model.Delivery {
