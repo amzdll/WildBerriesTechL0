@@ -13,13 +13,11 @@ func Module() fx.Option {
 	return fx.Module(
 		"Nats Streaming module",
 		fx.Provide(
-			openConn,
 			asHandler(order.New),
 		),
-		fx.Invoke(
-			fx.Annotate(setupConsumer, fx.ParamTags(`group:"topics"`)),
-			closeConn,
-		),
+		fx.Invoke(fx.Annotate(setupConsumer, fx.ParamTags(`group:"topics"`))),
+		fx.Provide(openConn),
+		fx.Invoke(closeConn),
 	)
 }
 
