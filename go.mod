@@ -9,6 +9,7 @@ require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/nats-io/nats.go v1.35.0
 	github.com/nats-io/stan.go v0.10.4
+	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/rs/zerolog v1.33.0
 	go.uber.org/fx v1.22.0
