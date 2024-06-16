@@ -3,10 +3,13 @@ package api
 import (
 	"context"
 	"github.com/go-chi/chi/v5"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/fx"
 	"net/http"
 	"wb/internal/api/order"
 	"wb/pkg/logger"
+
+	_ "wb/api"
 )
 
 func Module() fx.Option {
@@ -41,8 +44,18 @@ func startServer(lc fx.Lifecycle, router *chi.Mux, logger *logger.Logger) {
 	})
 }
 
+// @title          Chat API
+// @version        1.0
+// @description    Shop Api
+//
+// @host        127.0.0.1:8000
+// @BasePath    /
 func setupMainRouter(routers []route) *chi.Mux {
 	mainRouter := chi.NewRouter()
+	mainRouter.Get(
+		"/docs/*",
+		httpSwagger.Handler(httpSwagger.URL("doc.json")),
+	)
 	for _, router := range routers {
 		mainRouter.Mount("/", router.Routes())
 	}
