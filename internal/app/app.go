@@ -1,14 +1,14 @@
 package app
 
 import (
-	"context"
+	"flag"
 	"go.uber.org/fx"
-	"log"
 	"wb/internal/app/api"
 	"wb/internal/app/broker"
 	"wb/internal/app/core"
 	"wb/internal/app/db"
 	"wb/internal/app/logger"
+	"wb/internal/config"
 )
 
 func Create() *fx.App {
@@ -20,23 +20,17 @@ func Create() *fx.App {
 		broker.Module(),
 		fx.NopLogger,
 
-		fx.Invoke(manageLifecycle),
+		fx.Provide(
+			parseStage,
+			config.New,
+		),
 	)
+
 }
 
-func manageLifecycle(lc fx.Lifecycle) {
-	lc.Append(fx.Hook{
-		OnStart: startApp,
-		OnStop:  stopApp,
-	})
-}
-
-func startApp(_ context.Context) error {
-	log.Println("Starting application")
-	return nil
-}
-
-func stopApp(_ context.Context) error {
-	log.Println("Starting application")
-	return nil
+func parseStage() string {
+	var stage string
+	flag.StringVar(&stage, "stage", "local", "Stage (local, dev, prod)")
+	flag.Parse()
+	return stage
 }

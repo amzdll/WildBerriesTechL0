@@ -6,23 +6,31 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/fx"
 	"log"
+	"wb/internal/config"
 	"wb/pkg/logger"
 )
 
 func pgModule() fx.Option {
 	return fx.Module(
 		"PostgreSQL",
-		fx.Provide(newPool),
+		fx.Provide(
+			createPool,
+			config.NewPgConfig,
+		),
 		fx.Invoke(closePool),
 	)
 }
 
-func newPool(log *logger.Logger) (*pgxpool.Pool, error) {
+func createPool(config *config.PgConfig, log *logger.Logger) (*pgxpool.Pool, error) {
 	ctx := context.Background()
 	dsn := fmt.Sprintf(
-		"host=%s port=%s dbname=%s user=%s password=%s sslmode=%s",
-		"localhost", "5432", "wb",
-		"postgres", "postgres", "disable",
+		config.DsnTemplate,
+		config.Host,
+		config.Port,
+		config.Name,
+		config.User,
+		config.Password,
+		config.SslMode,
 	)
 	pool, err := pgxpool.New(ctx, dsn)
 	if err != nil {

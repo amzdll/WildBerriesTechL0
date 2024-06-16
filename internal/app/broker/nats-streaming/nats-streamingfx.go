@@ -2,10 +2,10 @@ package nats_streaming
 
 import (
 	"context"
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"go.uber.org/fx"
 	"wb/internal/broker/nats-streaming/order"
+	"wb/internal/config"
 	"wb/pkg/logger"
 )
 
@@ -13,19 +13,22 @@ func Module() fx.Option {
 	return fx.Module(
 		"Nats Streaming module",
 		fx.Provide(
+			openConn,
 			asHandler(order.New),
+			config.NewStanConfig,
 		),
-		fx.Invoke(fx.Annotate(setupConsumer, fx.ParamTags(`group:"topics"`))),
-		fx.Provide(openConn),
-		fx.Invoke(closeConn),
+		fx.Invoke(
+			fx.Annotate(setupConsumer, fx.ParamTags(`group:"topics"`)),
+			closeConn,
+		),
 	)
 }
 
-func openConn(log *logger.Logger) (stan.Conn, error) {
+func openConn(config *config.StanConfig, log *logger.Logger) (stan.Conn, error) {
 	sc, err := stan.Connect(
-		"test-cluster",
-		"consumer",
-		stan.NatsURL(nats.DefaultURL),
+		config.ClusterId,
+		config.ClientId,
+		stan.NatsURL(config.Host+":"+config.Port),
 	)
 	if err != nil {
 		log.Fatal("Failed to connect to nats-streaming.", err)

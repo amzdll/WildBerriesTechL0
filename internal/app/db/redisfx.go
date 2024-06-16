@@ -4,18 +4,22 @@ import (
 	"context"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
+	"wb/internal/config"
 	"wb/pkg/logger"
 )
 
 func redisModule() fx.Option {
 	return fx.Module(
 		"Redis",
-		fx.Provide(connect),
+		fx.Provide(
+			connect,
+			config.NewRedisConfig,
+		),
 		fx.Invoke(closeConnection),
 	)
 }
 
-func connect(log *logger.Logger) *redis.Client {
+func connect(config *config.RedisConfig, log *logger.Logger) *redis.Client {
 	ctx := context.Background()
 	drb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",

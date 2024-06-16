@@ -7,6 +7,7 @@ import (
 	"go.uber.org/fx"
 	"net/http"
 	"wb/internal/api/order"
+	"wb/internal/config"
 	"wb/pkg/logger"
 
 	_ "wb/api"
@@ -18,14 +19,20 @@ func Module() fx.Option {
 		fx.Provide(
 			fx.Annotate(setupMainRouter, fx.ParamTags(`group:"routes"`)),
 			asRoute(order.New),
+			config.NewApiConfig,
 		),
 		fx.Invoke(startServer),
 	)
 }
 
-func startServer(lc fx.Lifecycle, router *chi.Mux, logger *logger.Logger) {
+func startServer(
+	lc fx.Lifecycle,
+	router *chi.Mux,
+	config *config.ApiConfig,
+	logger *logger.Logger,
+) {
 	server := &http.Server{
-		Addr:    "localhost:8000",
+		Addr:    config.Host + ":" + config.Port,
 		Handler: router,
 	}
 

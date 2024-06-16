@@ -29,11 +29,11 @@ func New(logger *logger.Logger, cacheRepository RedisRepository, pgRepository Pg
 		cache:  cacheRepository,
 		db:     pgRepository,
 	}
-	s.loadCache()
+	s.restoreCache()
 	return &s
 }
 
-func (s Service) loadCache() {
+func (s Service) restoreCache() {
 	ctx := context.Background()
 	orders, err := s.db.GetAll(ctx)
 	if err != nil {
