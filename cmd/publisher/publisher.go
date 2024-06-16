@@ -79,7 +79,7 @@ func main() {
 	defer sc.Close()
 
 	order := generateRandomOrder()
-	fmt.Println(order.Items)
+	fmt.Println(order.OrderUID)
 	mess, _ := json.Marshal(order)
 
 	err = sc.Publish("orders", mess)
