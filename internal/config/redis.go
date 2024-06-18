@@ -6,7 +6,7 @@ type RedisConfig struct {
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
 	Password string `yaml:"password"`
-	DB       string `yaml:"db"`
+	DB       int    `yaml:"db"`
 }
 
 func NewRedisConfig(provider config.Provider) (*RedisConfig, error) {

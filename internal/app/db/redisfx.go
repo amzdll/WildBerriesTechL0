@@ -22,9 +22,9 @@ func redisModule() fx.Option {
 func connect(config *config.RedisConfig, log *logger.Logger) *redis.Client {
 	ctx := context.Background()
 	drb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
+		Addr:     config.Host + ":" + config.Port,
+		Password: config.Password,
+		DB:       config.DB,
 	})
 	if err := drb.Ping(ctx).Err(); err != nil {
 		log.Fatal("Failed to connect to Redis.", err)
