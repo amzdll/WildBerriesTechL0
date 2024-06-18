@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"flag"
 	"github.com/rs/zerolog"
 	"os"
 )
@@ -10,10 +9,9 @@ type Logger struct {
 	logger *zerolog.Logger
 }
 
-func New() *Logger {
+func New(stage string) *Logger {
 	var l zerolog.Logger
-
-	switch parseStage() {
+	switch stage {
 	case "local":
 		l = setupLocalLogger()
 	case "dev":
@@ -43,13 +41,6 @@ func (l *Logger) Warn(msg string) {
 
 func (l *Logger) Fatal(msg string, err error) {
 	l.logger.Fatal().Err(err).Msg(msg)
-}
-
-func parseStage() string {
-	var stage string
-	flag.StringVar(&stage, "stage", "local", "Stage (local, dev, prod)")
-	flag.Parse()
-	return stage
 }
 
 func setupLocalLogger() zerolog.Logger {
