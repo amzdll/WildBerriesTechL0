@@ -6,7 +6,7 @@ import (
 )
 
 type route interface {
-	Routes() *chi.Mux
+	Routes() (string, *chi.Mux)
 }
 
 func asRoute(f interface{}) interface{} {

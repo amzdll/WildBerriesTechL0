@@ -18,9 +18,10 @@ func New(service Service) *Handler {
 	return &Handler{service: service}
 }
 
-func (h *Handler) Routes() *chi.Mux {
+func (h *Handler) Routes() (string, *chi.Mux) {
+	route := "/order"
 	r := chi.NewRouter()
 
-	r.Get("/order/{id}", h.GetById)
-	return r
+	r.Get("/{id}", h.GetById)
+	return route, r
 }

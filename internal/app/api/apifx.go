@@ -3,10 +3,11 @@ package api
 import (
 	"context"
 	"github.com/go-chi/chi/v5"
-	httpSwagger "github.com/swaggo/http-swagger"
+	"github.com/go-chi/cors"
 	"go.uber.org/fx"
 	"net/http"
 	"wb/internal/api/order"
+	"wb/internal/api/swagger"
 	"wb/internal/config"
 	"wb/pkg/logger"
 
@@ -51,20 +52,21 @@ func startServer(
 	})
 }
 
-// @title          Chat API
-// @version        1.0
-// @description    Shop Api
-//
-// @host        127.0.0.1:8000
-// @BasePath    /
-func setupMainRouter(routers []route) *chi.Mux {
+func setupMainRouter(routers []route, stage string) *chi.Mux {
 	mainRouter := chi.NewRouter()
-	mainRouter.Get(
-		"/docs/*",
-		httpSwagger.Handler(httpSwagger.URL("doc.json")),
-	)
+	corsMiddleware := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	})
+	mainRouter.Use(corsMiddleware.Handler)
+	if stage != "prod" {
+		mainRouter.Mount(swagger.Routes())
+	}
 	for _, router := range routers {
-		mainRouter.Mount("/", router.Routes())
+		mainRouter.Mount(router.Routes())
 	}
 	return mainRouter
 }
