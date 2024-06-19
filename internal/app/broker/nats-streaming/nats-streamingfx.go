@@ -34,7 +34,7 @@ func openConn(config *config.StanConfig, log *logger.Logger) (stan.Conn, error) 
 		log.Fatal("Failed to connect to nats-streaming.", err)
 		return nil, err
 	}
-	log.Info("Nats-Streaming connection has been opened.")
+	log.Info("Message broker (Nats-Streaming) connection has been opened.")
 	return sc, err
 }
 

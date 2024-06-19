@@ -29,7 +29,7 @@ func connect(config *config.RedisConfig, log *logger.Logger) *redis.Client {
 	if err := drb.Ping(ctx).Err(); err != nil {
 		log.Fatal("Failed to connect to Redis.", err)
 	}
-	log.Info("Redis connection has opened.")
+	log.Info("Cache (Redis) connection has opened.")
 	return drb
 }
 

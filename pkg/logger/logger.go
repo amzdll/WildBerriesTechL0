@@ -49,9 +49,11 @@ func setupLocalLogger() zerolog.Logger {
 }
 
 func setupDevLogger() zerolog.Logger {
+	zerolog.TimeFieldFormat = "15:04:05 02.01.2006"
 	return zerolog.New(os.Stdout).Level(zerolog.DebugLevel).With().Timestamp().Logger()
 }
 
 func setupProdLogger() zerolog.Logger {
+	zerolog.TimeFieldFormat = "15:04:05 02/01/2006"
 	return zerolog.New(os.Stdout).Level(zerolog.InfoLevel).With().Timestamp().Logger()
 }
