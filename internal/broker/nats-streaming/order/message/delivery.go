@@ -3,14 +3,14 @@ package message
 import "wb/internal/model"
 
 type Delivery struct {
-	OrderUID string `json:"order_uid"`
-	Name     string `json:"name"`
-	Phone    string `json:"phone"`
-	Zip      int    `json:"zip"`
-	City     string `json:"city"`
-	Address  string `json:"address"`
-	Region   string `json:"region"`
-	Email    string `json:"email"`
+	OrderUID string `json:"order_uid"  validate:"required"`
+	Name     string `json:"name"  validate:"required"`
+	Phone    string `json:"phone"  validate:"required"`
+	Zip      int    `json:"zip"  validate:"required"`
+	City     string `json:"city"  validate:"required"`
+	Address  string `json:"address"  validate:"required"`
+	Region   string `json:"region"  validate:"required"`
+	Email    string `json:"email"  validate:"required"`
 }
 
 func (d *Delivery) toModel() model.Delivery {

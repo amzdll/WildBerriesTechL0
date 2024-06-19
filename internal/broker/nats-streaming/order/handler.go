@@ -2,6 +2,7 @@ package order
 
 import (
 	"context"
+	"github.com/go-playground/validator/v10"
 	"github.com/nats-io/stan.go"
 	"time"
 	"wb/internal/model"
@@ -13,14 +14,20 @@ type Service interface {
 }
 
 type MessageHandler struct {
-	service Service
-	logger  *logger.Logger
+	service   Service
+	validator *validator.Validate
+	logger    *logger.Logger
 }
 
-func New(service Service, logger *logger.Logger) *MessageHandler {
+func New(
+	service Service,
+	validator *validator.Validate,
+	logger *logger.Logger,
+) *MessageHandler {
 	return &MessageHandler{
-		service: service,
-		logger:  logger,
+		service:   service,
+		validator: validator,
+		logger:    logger,
 	}
 }
 

@@ -8,11 +8,13 @@ import (
 	"wb/internal/app/core"
 	"wb/internal/app/db"
 	"wb/internal/app/logger"
+	"wb/internal/app/validator"
 	"wb/internal/config"
 )
 
 func Create() *fx.App {
 	return fx.New(
+		validator.Module(),
 		logger.Module(),
 		db.Module(),
 		core.Module(),
