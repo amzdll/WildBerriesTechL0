@@ -63,7 +63,7 @@ create table if not exists "items"
 );
 
 -- +goose Down
-drop table if exists "order" cascade;
-drop table if exists "delivery" cascade;
-drop table if exists "payment" cascade;
-drop table if exists "items" cascade;
+-- drop table if exists "order" cascade;
+-- drop table if exists "delivery" cascade;
+-- drop table if exists "payment" cascade;
+-- drop table if exists "items" cascade;

@@ -3,18 +3,16 @@ include .env
 GOOSE_QUERY=${LOCAL_BIN}/goose -dir ${PG_MIGRATION_DIR} postgres ${PG_DSN}
 
 install-deps:
-	# Migration
 	GOBIN=${LOCAL_BIN} go install github.com/pressly/goose/v3/cmd/goose@latest
 	GOBIN=${LOCAL_BIN} go install github.com/swaggo/swag/cmd/swag@latest
 
-
-migration-status:
+local-migration-status:
 	$(GOOSE_QUERY) status -v
 
-migration-up:
+local-migration-up:
 	$(GOOSE_QUERY) up -v
 
-migration-down:
+local-migration-down:
 	$(GOOSE_QUERY) down -v
 
 generate-swagger:
