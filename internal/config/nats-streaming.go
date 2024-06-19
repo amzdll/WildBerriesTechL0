@@ -1,6 +1,8 @@
 package config
 
-import "go.uber.org/config"
+import (
+	"go.uber.org/config"
+)
 
 type StanConfig struct {
 	ClusterId string `yaml:"cluster_id"`

@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  pg:
+    container_name: pg
+    image: postgres:15.7-alpine3.20
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: "${PG_DATABASE_NAME}"
+      POSTGRES_USER: "${PG_USER}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+    volumes:
+      - ${PWD}/migrations:/docker-entrypoint-initdb.d/
+    ports:
+      - "${PG_PORT}:${PG_PORT}"
+
+  nats-streaming:
+    container_name: nats-streaming
+    image: nats-streaming:0.25.6-alpine3.18
+    env_file:
+      - .env
+    ports:
+      - "${NATS_PORT}:${NATS_PORT}"
+      - "${NATS_CLUSTER_PORT}:${NATS_CLUSTER_PORT}"
+
+  redis:
+    container_name: redis
+    image: redis:7.4-rc1-alpine
+    env_file:
+      - .env
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    restart: on-failure
+    volumes:
+      - .:/project/wb
+    env_file:
+      - ".env"
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      - redis
+      - pg
+      - nats-streaming
+
+
+volumes:
+  wb-data:

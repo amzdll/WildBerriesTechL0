@@ -1,0 +1,21 @@
+server:
+  host: "0.0.0.0"
+  port: "8000"
+pg:
+  name: "wb"
+  user: "developer"
+  password: "developer"
+  host: "pg"
+  port: "5432"
+  ssl_mode: "disable"
+  dsn_template: "host=%s port=%s dbname=%s user=%s password=%s sslmode=%s"
+redis:
+  host: "redis"
+  port: 6379
+  password: ""
+  db: 0
+nats-streaming:
+  cluster_id: "test-cluster"
+  client_id: "consumer"
+  host: "nats-streaming"
+  port: "4222"

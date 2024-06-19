@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
-	"log"
+	"github.com/rs/zerolog/log"
 	"math/rand"
 	"time"
+	"wb/internal/config"
 )
 
 type Order struct {
@@ -63,29 +64,6 @@ type Item struct {
 	NmID        int     `json:"nm_id"`
 	Brand       string  `json:"brand"`
 	Status      int     `json:"status"`
-}
-
-func main() {
-	rand.Seed(time.Now().UnixNano())
-
-	sc, err := stan.Connect(
-		"test-cluster",
-		"publisher",
-		stan.NatsURL(nats.DefaultURL),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer sc.Close()
-
-	order := generateRandomOrder()
-	fmt.Println(order.OrderUID)
-	mess, _ := json.Marshal(order)
-
-	err = sc.Publish("orders", mess)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func generateRandomOrder() Order {
@@ -150,4 +128,38 @@ func generateRandomString(length int) string {
 		b[i] = charset[rand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	var stage string
+	flag.StringVar(&stage, "stage", "local", "Stage (local, dev, prod)")
+	flag.Parse()
+	c, err := config.New(stage)
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
+	stanConfig, err := config.NewStanConfig(c.Provider)
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
+
+	sc, err := stan.Connect(
+		"test-cluster",
+		"publisher",
+		stan.NatsURL(stanConfig.Host+":"+stanConfig.Port),
+	)
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
+	defer sc.Close()
+
+	order := generateRandomOrder()
+	fmt.Println(order.OrderUID)
+	mess, _ := json.Marshal(order)
+
+	err = sc.Publish("orders", mess)
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
 }
