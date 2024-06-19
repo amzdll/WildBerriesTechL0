@@ -12,12 +12,14 @@
 ## Go dependencies
 - chi
 - chi/render
+- chi/cors
 - uber/fx
 - uber/config
 - zerolog
 - go-redis
 - pgx
 - nats-streaming-server
+- validator
 
 ## Project Structure
 
