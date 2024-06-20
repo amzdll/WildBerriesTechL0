@@ -23,7 +23,7 @@ type Order struct {
 	CustomerID        string    `json:"customer_id"`
 	DeliveryService   string    `json:"delivery_service"`
 	ShardKey          string    `json:"shardkey"`
-	SMID              int       `json:"sm_id"`
+	SmID              int       `json:"sm_id"`
 	DateCreated       time.Time `json:"date_created"`
 	OofShard          string    `json:"oof_shard"`
 }
@@ -111,11 +111,11 @@ func generateRandomOrder() Order {
 			},
 		},
 		Locale:            "en",
-		InternalSignature: "",
+		InternalSignature: "enenenenen",
 		CustomerID:        "test",
 		DeliveryService:   "meest",
 		ShardKey:          generateRandomString(1),
-		SMID:              rand.Intn(100),
+		SmID:              rand.Intn(100),
 		DateCreated:       time.Now(),
 		OofShard:          generateRandomString(1),
 	}
