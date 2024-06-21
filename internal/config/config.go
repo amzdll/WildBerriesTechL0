@@ -23,6 +23,7 @@ type Config struct {
 
 func New(stage string) (Config, error) {
 	var configName string
+
 	switch stage {
 	case "local":
 		configName = EnvLocal
@@ -31,10 +32,12 @@ func New(stage string) (Config, error) {
 	default:
 		configName = EnvLocal
 	}
+
 	loader, err := config.NewYAML(config.File(configName))
 	if err != nil {
 		return Config{}, err
 	}
+
 	cfg := BaseConfig{
 		Name: "default",
 	}

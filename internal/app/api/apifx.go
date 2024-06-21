@@ -2,14 +2,15 @@ package api
 
 import (
 	"context"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/cors"
-	"go.uber.org/fx"
 	"net/http"
 	"wb/internal/api/order"
 	"wb/internal/api/swagger"
 	"wb/internal/config"
 	"wb/pkg/logger"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
+	"go.uber.org/fx"
 
 	_ "wb/api"
 )
@@ -54,19 +55,23 @@ func startServer(
 
 func setupMainRouter(routers []route, stage string) *chi.Mux {
 	mainRouter := chi.NewRouter()
+	cacheTime := 300
 	corsMiddleware := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
 		AllowCredentials: true,
-		MaxAge:           300,
+		MaxAge:           cacheTime,
 	})
 	mainRouter.Use(corsMiddleware.Handler)
+
 	if stage != "prod" {
 		mainRouter.Mount(swagger.Routes())
 	}
+
 	for _, router := range routers {
 		mainRouter.Mount(router.Routes())
 	}
+
 	return mainRouter
 }

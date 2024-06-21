@@ -2,7 +2,6 @@ package app
 
 import (
 	"flag"
-	"go.uber.org/fx"
 	"wb/internal/app/api"
 	"wb/internal/app/broker"
 	"wb/internal/app/core"
@@ -10,6 +9,8 @@ import (
 	"wb/internal/app/logger"
 	"wb/internal/app/validator"
 	"wb/internal/config"
+
+	"go.uber.org/fx"
 )
 
 func Create() *fx.App {
@@ -27,12 +28,13 @@ func Create() *fx.App {
 			config.New,
 		),
 	)
-
 }
 
 func parseStage() string {
 	var stage string
+
 	flag.StringVar(&stage, "stage", "local", "Stage (local, dev, prod)")
 	flag.Parse()
+
 	return stage
 }

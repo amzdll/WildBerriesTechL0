@@ -19,5 +19,6 @@ func NewPgConfig(provider config.Provider) (*PgConfig, error) {
 	if err := provider.Get("pg").Populate(&c); err != nil {
 		return nil, err
 	}
+
 	return &c, nil
 }

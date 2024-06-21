@@ -1,8 +1,9 @@
 package logger
 
 import (
-	"github.com/rs/zerolog"
 	"os"
+
+	"github.com/rs/zerolog"
 )
 
 type Logger struct {
@@ -11,6 +12,7 @@ type Logger struct {
 
 func New(stage string) *Logger {
 	var l zerolog.Logger
+
 	switch stage {
 	case "local":
 		l = setupLocalLogger()
@@ -19,7 +21,9 @@ func New(stage string) *Logger {
 	case "prod":
 		l = setupProdLogger()
 	}
+
 	l.Info().Msg("Logger initialized")
+
 	return &Logger{logger: &l}
 }
 

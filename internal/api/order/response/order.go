@@ -38,10 +38,13 @@ func OrderFromModel(m model.Order) Order {
 	}
 	res.Delivery.fromModel(m.Delivery)
 	res.Payment.fromModel(m.Payment)
+
 	for _, mItem := range m.Items {
 		var rItem item
+
 		rItem.fromModel(mItem)
 		res.Items = append(res.Items, rItem)
 	}
+
 	return res
 }

@@ -1,8 +1,9 @@
 package order
 
 import (
-	"github.com/jackc/pgx/v5/pgxpool"
 	"wb/pkg/logger"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Repository struct {

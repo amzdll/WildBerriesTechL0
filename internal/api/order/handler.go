@@ -2,8 +2,9 @@ package order
 
 import (
 	"context"
-	"github.com/go-chi/chi/v5"
 	"wb/internal/model"
+
+	"github.com/go-chi/chi/v5"
 )
 
 type Service interface {
@@ -23,5 +24,6 @@ func (h *Handler) Routes() (string, *chi.Mux) {
 	r := chi.NewRouter()
 
 	r.Get("/{id}", h.GetById)
+
 	return route, r
 }

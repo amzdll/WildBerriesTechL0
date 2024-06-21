@@ -1,8 +1,9 @@
 package logger
 
 import (
-	"go.uber.org/fx"
 	"wb/pkg/logger"
+
+	"go.uber.org/fx"
 )
 
 func Module() fx.Option {

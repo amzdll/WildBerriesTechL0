@@ -2,12 +2,13 @@
 
 
 ## Run
-...
+```zsh
+    make build
+    make run
+    
+    make send-message  # sending a randomly generated order to the message broker
+```
 
-### Prerequisites
-- Docker
-- Docker Compose
-- Go (version 1.22.3)
 
 ## Go dependencies
 - chi

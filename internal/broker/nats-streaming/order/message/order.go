@@ -27,6 +27,7 @@ func (o *Order) ToModel() model.Order {
 	for i, itemOrder := range o.Items {
 		items[i] = itemOrder.toModel()
 	}
+
 	return model.Order{
 		OrderUID:          o.OrderUID,
 		TrackNumber:       o.TrackNumber,

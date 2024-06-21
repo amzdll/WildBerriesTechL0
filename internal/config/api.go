@@ -13,5 +13,6 @@ func NewApiConfig(provider config.Provider) (*ApiConfig, error) {
 	if err := provider.Get("server").Populate(&c); err != nil {
 		return nil, err
 	}
+
 	return &c, nil
 }

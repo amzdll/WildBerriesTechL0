@@ -24,5 +24,4 @@ func (e *Delivery) toModel() model.Delivery {
 		Region:   e.Region,
 		Email:    e.Email,
 	}
-
 }

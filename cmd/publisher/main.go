@@ -1,3 +1,4 @@
+// nolint
 package main
 
 import (
@@ -8,7 +9,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"math/rand"
 	"time"
-	"wb/internal/config"
 )
 
 type Order struct {
@@ -135,19 +135,11 @@ func main() {
 	var stage string
 	flag.StringVar(&stage, "stage", "local", "Stage (local, dev, prod)")
 	flag.Parse()
-	c, err := config.New(stage)
-	if err != nil {
-		log.Fatal().Msg(err.Error())
-	}
-	stanConfig, err := config.NewStanConfig(c.Provider)
-	if err != nil {
-		log.Fatal().Msg(err.Error())
-	}
 
 	sc, err := stan.Connect(
 		"test-cluster",
 		"publisher",
-		stan.NatsURL(stanConfig.Host+":"+stanConfig.Port),
+		stan.NatsURL("nats://0.0.0.0:4222"),
 	)
 	if err != nil {
 		log.Fatal().Msg(err.Error())
@@ -155,7 +147,7 @@ func main() {
 	defer sc.Close()
 
 	order := generateRandomOrder()
-	fmt.Println(order.OrderUID)
+	fmt.Println("Order id:", order.OrderUID)
 	mess, _ := json.Marshal(order)
 
 	err = sc.Publish("orders", mess)

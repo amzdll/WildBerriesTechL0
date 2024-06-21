@@ -14,5 +14,6 @@ func NewRedisConfig(provider config.Provider) (*RedisConfig, error) {
 	if err := provider.Get("redis").Populate(&c); err != nil {
 		return nil, err
 	}
+
 	return &c, nil
 }

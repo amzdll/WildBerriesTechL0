@@ -2,10 +2,11 @@ package db
 
 import (
 	"context"
-	"github.com/redis/go-redis/v9"
-	"go.uber.org/fx"
 	"wb/internal/config"
 	"wb/pkg/logger"
+
+	"github.com/redis/go-redis/v9"
+	"go.uber.org/fx"
 )
 
 func redisModule() fx.Option {
@@ -26,10 +27,13 @@ func connect(config *config.RedisConfig, log *logger.Logger) *redis.Client {
 		Password: config.Password,
 		DB:       config.DB,
 	})
+
 	if err := drb.Ping(ctx).Err(); err != nil {
 		log.Fatal("Failed to connect to Redis.", err)
 	}
+
 	log.Info("Cache (Redis) connection has opened.")
+
 	return drb
 }
 

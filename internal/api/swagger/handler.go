@@ -1,9 +1,10 @@
 package swagger
 
 import (
+	_ "wb/api"
+
 	"github.com/go-chi/chi/v5"
 	httpSwagger "github.com/swaggo/http-swagger"
-	_ "wb/api"
 )
 
 // Routes
@@ -20,5 +21,6 @@ func Routes() (string, *chi.Mux) {
 		"/*",
 		httpSwagger.Handler(httpSwagger.URL("doc.json")),
 	)
+
 	return route, r
 }

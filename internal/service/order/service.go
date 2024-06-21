@@ -30,14 +30,17 @@ func New(logger *logger.Logger, cacheRepository RedisRepository, pgRepository Pg
 		db:     pgRepository,
 	}
 	s.restoreCache()
+
 	return &s
 }
 
 func (s Service) restoreCache() {
 	ctx := context.Background()
 	orders, err := s.db.GetAll(ctx)
+
 	if err != nil {
 		s.logger.Error("Error loading cache", err)
 	}
+
 	s.cache.CreateBatch(ctx, orders)
 }

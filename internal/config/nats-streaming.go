@@ -16,5 +16,6 @@ func NewStanConfig(provider config.Provider) (*StanConfig, error) {
 	if err := provider.Get("nats-streaming").Populate(&c); err != nil {
 		return nil, err
 	}
+
 	return &c, nil
 }

@@ -2,11 +2,12 @@ package order
 
 import (
 	"context"
-	"github.com/go-playground/validator/v10"
-	"github.com/nats-io/stan.go"
 	"time"
 	"wb/internal/model"
 	"wb/pkg/logger"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/nats-io/stan.go"
 )
 
 type Service interface {
@@ -33,15 +34,17 @@ func New(
 
 func (h MessageHandler) Subscribe(conn stan.Conn) error {
 	var err error
+
+	const waitTime = 30 * time.Second
 	if _, err = conn.Subscribe(
 		"orders",
 		h.create,
-		stan.StartAtTime(time.Now().Add(time.Second*5)),
-		stan.AckWait(30*time.Second),
+		stan.AckWait(waitTime),
 		stan.SetManualAckMode(),
 		stan.DurableName("orders-durable-subscriber"),
 	); err != nil {
 		h.logger.Fatal("Error when connecting to a channel", err)
 	}
+
 	return err
 }

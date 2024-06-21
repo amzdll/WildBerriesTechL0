@@ -1,8 +1,9 @@
 package broker
 
 import (
+	nats_streaming "wb/internal/app/broker/nats-streaming"
+
 	"go.uber.org/fx"
-	"wb/internal/app/broker/nats-streaming"
 )
 
 func Module() fx.Option {

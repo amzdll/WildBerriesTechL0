@@ -2,8 +2,6 @@ package order
 
 import (
 	"context"
-	"database/sql"
-	"errors"
 	"wb/internal/db/pg/order/query"
 	"wb/internal/model"
 )
@@ -13,23 +11,31 @@ func (r *Repository) Create(ctx context.Context, order model.Order) error {
 	if err != nil {
 		return err
 	}
+
 	defer func() {
 		if err != nil {
-			tx.Rollback(ctx)
+			if err = tx.Rollback(ctx); err != nil {
+				return
+			}
+
 			return
 		}
+
 		err = tx.Commit(ctx)
 	}()
 
 	if err = r.createOrder(ctx, order); err != nil {
 		return err
 	}
+
 	if err = r.createDelivery(ctx, order.Delivery); err != nil {
 		return err
 	}
+
 	if err = r.createItems(ctx, order); err != nil {
 		return err
 	}
+
 	if err = r.createPayment(ctx, order.Payment); err != nil {
 		return err
 	}
@@ -52,9 +58,7 @@ func (r *Repository) createOrder(ctx context.Context, order model.Order) error {
 		order.DateCreated,
 		order.OofShard,
 	)
-	if errors.Is(err, sql.ErrNoRows) {
 
-	}
 	return err
 }
 
@@ -70,6 +74,7 @@ func (r *Repository) createDelivery(ctx context.Context, delivery model.Delivery
 		delivery.Region,
 		delivery.Email,
 	)
+
 	return err
 }
 
@@ -93,6 +98,7 @@ func (r *Repository) createItems(ctx context.Context, order model.Order) error {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -110,5 +116,6 @@ func (r *Repository) createPayment(ctx context.Context, payment model.Payment) e
 		payment.GoodsTotal,
 		payment.CustomFee,
 	)
+
 	return err
 }

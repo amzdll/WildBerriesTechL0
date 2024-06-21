@@ -2,11 +2,12 @@ package nats_streaming
 
 import (
 	"context"
-	"github.com/nats-io/stan.go"
-	"go.uber.org/fx"
 	"wb/internal/broker/nats-streaming/order"
 	"wb/internal/config"
 	"wb/pkg/logger"
+
+	"github.com/nats-io/stan.go"
+	"go.uber.org/fx"
 )
 
 func Module() fx.Option {
@@ -34,7 +35,9 @@ func openConn(config *config.StanConfig, log *logger.Logger) (stan.Conn, error) 
 		log.Fatal("Failed to connect to nats-streaming.", err)
 		return nil, err
 	}
+
 	log.Info("Message broker (Nats-Streaming) connection has been opened.")
+
 	return sc, err
 }
 
@@ -57,5 +60,6 @@ func setupConsumer(handlers []mHandler, sc stan.Conn, log *logger.Logger) error 
 			return err
 		}
 	}
+
 	return nil
 }
